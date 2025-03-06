@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Add New Blog</title>
+    <style>
+      body {
+       background-image: url("/images/bgimg4.jpg");
+       background-size: cover;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       height: 100vh;
+     }
+     .navbar {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       background-color: #2a3137; /* Dark Navbar */
+       padding: 5px 10px;
+       z-index: 1000; /* Keep it above other elements */
+     }
+     .addblog-container{
+       background: rgba(235, 235, 233, 0.568);
+       backdrop-filter: blur(0.1px);
+       border-radius: 12px;
+       padding: 10px;
+       max-width: 500px;
+       width: 100%;
+       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+       text-align: center;
+       color: rgb(79, 12, 61);
+       animation: fadeIn 0.5s ease-in-out;
+     }
+     .signin-heading {
+       text-align: center;
+       font-size: 2.5rem;
+       font-weight: bold;
+       color: #8a0f49;
+       margin-top: 20px;
+       text-transform: uppercase;
+       letter-spacing: 2px;
+       position: relative;
+       animation: fadeIn 0.5s ease-in-out;
+     }
+
+     .signin-heading::after {
+       content: '';
+       display: block;
+       width: 100px;
+       height: 4px;
+       background-color: #8a0f49;
+       margin: 8px auto 0;
+       border-radius: 5px;
+     }
+       /* Button Styling */
+       .btn-primary {
+       background-color: #512346;
+       border: none;
+       font-size: 1.2rem;
+       padding: 10px;
+       border-radius: 6px;
+       transition: 0.3s;
+     }
+
+     .btn-primary:hover {
+       background-color: #280c37;
+     }
+     @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+     
+     </style>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+
+    <div class="addblog-container mt-3">
+      <h1 class="signin-heading">
+        <i class="fas fa-sign-in-alt"></i> Add Your Blog!!
+      </h1>
+      <form action="/blog" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="coverImage" class="form-label" ><b>Cover Image</b></label>
+          <input
+            type="file"
+            class="form-control"
+            id="coverImage"
+            name="coverImage"
+            aria-describedby="coverImage" required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="title" class="form-label"><b>Title</b></label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            aria-describedby="title" required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="body"><b>Add Content</b></label>
+          <textarea name="body" class="form-control" id="body" required></textarea>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

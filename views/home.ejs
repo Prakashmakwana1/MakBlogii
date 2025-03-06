@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Homepage</title>
+    <style>
+      .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+      /* Background Styling */
+      body {
+        background-image: url("/images/bgimg2.jpg");
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #4e173d; /* Dark Navbar */
+        padding: 5px 10px;
+        z-index: 1000; /* Keep it above other elements */
+      }
+      .cardbody-container {
+        margin-top: 300px;
+      }
+      .card-body {
+        background: rgba(178, 182, 178, 0.5);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 10px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        color: rgb(79, 12, 61);
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <nav class="navbar"><%- include('./partials/nav') %></nav>
+
+    <div class="cardbody-container">
+      <div class="container mt-3">
+        <div class="row row-cols-4">
+          <% blogs.forEach(blog => { %>
+          <div class="col">
+            <div class="mt-4 card col" style="width: 18rem">
+              <img src="<%= blog.coverImageURL %>" class="card-img-top" />
+              <div class="card-body">
+                <h5 class="card-title"><%= blog.title %></h5>
+
+                <!-- User Details -->
+                <p><strong>Author:</strong> <%= blog.createdBy.fullName %></p>
+                <p><strong>Email:</strong> <%= blog.createdBy.email %></p>
+                <p><strong>Gender:</strong> <%= blog.createdBy.gender %></p>
+                <p><strong>City:</strong> <%= blog.createdBy.city %></p>
+
+                <a href="/blog/<%= blog._id %>" class="btn btn-secondary"
+                  >View</a
+                >
+
+                <!-- Update & Delete Buttons (Only for Logged-in Users) -->
+                <% if (user&& user._id.toString() ===
+                blog.createdBy._id.toString()) { %>
+                <a href="/blog/edit/<%= blog._id %>" class="btn btn-dark"
+                  >Edit</a
+                >
+                <form
+                  action="/blog/delete/<%= blog._id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title><%= blog.title %> | Blog</title>
+    <style>
+      /* General Styles */
+      body {
+        background-image: url("/images/background.jpg");
+        font-family: "Poppins", sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+        background: #ffffffca;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      /* Blog Cover Image */
+      .blog-cover {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Blog Content */
+      .blog-content {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #444;
+        padding-top: 10px;
+      }
+
+      /* Author Section */
+      .author-box {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+      }
+
+      .author-box img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .author-name {
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+      }
+
+      /* Comment Section */
+      .comments-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #eee;
+      }
+
+      .comment-box {
+        background: #fafafa;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .comment-box img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .comment-text {
+        font-size: 16px;
+        color: #333;
+      }
+
+      .comment-form {
+        margin-top: 15px;
+      }
+
+      .comment-form input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .btn-submit {
+        background: #148d6bcc;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .btn-submit:hover {
+        background: #013c1b;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-4">
+      <h1><%= blog.title %></h1>
+      <img src="<%= blog.coverImageURL %>" class="blog-cover" />
+
+      <p class="blog-content"><%= blog.body %></p>
+
+      <div class="author-box">
+        <% if (blog.createdBy) { %>
+        <img src="<%= blog.createdBy.profileImageURL %>" />
+        <span class="author-name"
+          ><%= blog.createdBy.fullName || 'Anonymous' %></span
+        >
+        <% } else { %>
+        <p>Author not found.</p>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="container comments-section">
+      <h2>Comments (<%= comments.length %>)</h2>
+
+      <% if (locals.user) { %>
+      <form
+        action="/blog/comment/<%= blog._id %>"
+        method="post"
+        class="comment-form"
+      >
+        <input
+          type="text"
+          name="content"
+          placeholder="Write your comment..."
+          required
+        />
+        <button class="btn-submit" type="submit">Add Comment</button>
+      </form>
+      <% } %> <% comments.forEach(comment => { %>
+      <div class="comment-box">
+        <% if (comment.createdBy) { %>
+        <img src="<%= comment.createdBy.profileImageURL %>" />
+        <div class="comment-text">
+          <strong><%= comment.createdBy.fullName %></strong><br />
+          <%= comment.content %>
+        </div>
+        <% } else { %>
+        <p>Comment not found.</p>
+        <% } %>
+       
+      </div>
+      <% }) %>
+    </div>
+
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Editblog</title>
+    <style>
+      body {
+       background-image: url("/images/bgimg3.jpg");
+       background-size: cover;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       height: 100vh;
+     }
+     .navbar {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       background-color: #2a3137; /* Dark Navbar */
+       padding: 5px 10px;
+       z-index: 1000; /* Keep it above other elements */
+     }
+     .editblog-container{
+       background: rgba(228, 228, 222, 0.541);
+       backdrop-filter: blur(0.1px);
+       border-radius: 12px;
+       padding: 10px;
+       max-width: 500px;
+       width: 100%;
+       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+       text-align: center;
+       color: rgb(79, 12, 61);
+       animation: fadeIn 0.5s ease-in-out;
+     }
+     .edit-heading {
+       text-align: center;
+       font-size: 2.5rem;
+       font-weight: bold;
+       color: #8a0f49;
+       margin-top: 20px;
+       text-transform: uppercase;
+       letter-spacing: 2px;
+       position: relative;
+       animation: fadeIn 0.5s ease-in-out;
+     }
+
+     .edit-heading::after {
+       content: '';
+       display: block;
+       width: 100px;
+       height: 4px;
+       background-color: #8a0f49;
+       margin: 8px auto 0;
+       border-radius: 5px;
+     }
+       /* Button Styling */
+       .btn-secondary {
+       background-color: #512346;
+       border: none;
+       font-size: 1.2rem;
+       padding: 10px;
+       border-radius: 6px;
+       transition: 0.3s;
+     }
+
+     .btn-secondary:hover {
+       background-color: #280c37;
+     }
+     .btn-success {
+       background-color: #0a744f;
+       border: none;
+       font-size: 1.2rem;
+       padding: 10px;
+       border-radius: 6px;
+       transition: 0.3s;
+     }
+
+     .btn-success:hover {
+       background-color: #063e21f3;
+     }
+     @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+     
+     </style>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+
+<div class="editblog-container">
+  <h1 class="edit-heading">
+    <i class="fas fa-sign-in-alt"></i> Edit Your Blog!!
+  </h1>
+  <form action="/blog/edit/<%= blog._id %>" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label"><b>Title</b></label>
+      <input type="text" class="form-control" name="title" value="<%= blog.title %>" required>
+    </div>
+    
+    <div class="mb-3">
+      <label class="form-label"><b>Add Content</b></label>
+      <textarea class="form-control" name="body" rows="5" required><%= blog.body %></textarea>
+    </div>
+    
+    <div class="mb-3">
+      <label class="form-label"><b>Image URL</b></label>
+      <input type="file" class="form-control" name="coverImage" value="<%= blog.imageUrl %>">
+    </div>
+
+    <button type="submit" class="btn btn-success">Update Blog</button>
+    <a href="/" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+<%- include('./partials/scripts') %>
+</body>
+</html>

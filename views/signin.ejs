@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/head') %>
+    <title>Signin</title>
+
+    <style>
+       body {
+        background-image: url("/images/bgimg2.jpg");
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #2a3137; /* Dark Navbar */
+        padding: 5px 10px;
+        z-index: 1000; /* Keep it above other elements */
+      }
+      .signin-container{
+        background: rgba(235, 235, 233, 0.568);
+        backdrop-filter: blur(0.1px);
+        border-radius: 12px;
+        padding: 10px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        color: rgb(79, 12, 61);
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      .signin-heading {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #8a0f49;
+        margin-top: 20px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: relative;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      .signin-heading::after {
+        content: '';
+        display: block;
+        width: 100px;
+        height: 4px;
+        background-color: #8a0f49;
+        margin: 8px auto 0;
+        border-radius: 5px;
+      }
+        /* Button Styling */
+        .btn-primary {
+        background-color: #512346;
+        border: none;
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 6px;
+        transition: 0.3s;
+      }
+
+      .btn-primary:hover {
+        background-color: #280c37;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+
+</head>
+
+<body>
+  <%- include('./partials/nav') %>
+
+    <div class="signin-container mt-5">
+      <!-- Dynamic Sign-in Heading -->
+      <h1 class="signin-heading">
+        <i class="fas fa-sign-in-alt"></i> Please Sign In
+      </h1>
+
+      <div class="container mt-4 mx-auto" style="max-width: 400px;">
+        <div class="card-body">
+          <form action="/user/signin" method="post">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label"><b>Email address</b></label>
+              <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                aria-describedby="emailHelp" />
+              <div id="emailHelp" class="form-text">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label"><b>Password</b></label>
+              <input name="password" type="password" class="form-control" id="exampleInputPassword1" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <%- include('./partials/scripts') %>
+</body>
+
+</html>
