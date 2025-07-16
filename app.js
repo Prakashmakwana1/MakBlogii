@@ -25,7 +25,11 @@ const PORT = process.env.PORT || 8000;
 const urlencodedParser = bodyPaser.urlencoded({ extended: false })
 
 mongoose
-  .connect(process.env.MONGO_URL)
+  .set('strictQuery', true)
+   .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then((e) => console.log("MongoDB Connected"));
 
 app.set("view engine", "ejs");
