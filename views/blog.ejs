@@ -3,122 +3,456 @@
   <head>
     <%- include('./partials/head') %>
     <title><%= blog.title %> | Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      /* General Styles */
-      body {
-        background-image: url("/images/background.jpg");
-        font-family: "Poppins", sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --text-primary: #2d3748;
+        --text-secondary: #4a5568;
+        --text-light: #718096;
+        --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       }
 
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Enhanced Body Styles */
+      body {
+        background: var(--primary-gradient);
+        font-family: 'Inter', "Poppins", sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated background with original image support */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          url("/images/background.jpg") center/cover no-repeat,
+          radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+        animation: float 20s ease-in-out infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+      }
+
+      /* Enhanced Container */
       .container {
         max-width: 900px;
         margin: auto;
         padding: 20px;
-        background: #ffffffca;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        box-shadow: var(--shadow-heavy);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
       }
 
+      .container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      }
+
+      .container:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-heavy), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .container.mt-4 {
+        margin-top: 2rem;
+      }
+
+      /* Enhanced Typography */
       h1 {
-        color: #333;
-        font-size: 28px;
-        font-weight: bold;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
       }
 
-      /* Blog Cover Image */
+      h1::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: var(--accent-gradient);
+        border-radius: 2px;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      /* Enhanced Blog Cover Image */
       .blog-cover {
         width: 100%;
         height: 450px;
         object-fit: cover;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        box-shadow: var(--shadow-medium);
+        transition: all 0.3s ease;
+        position: relative;
+        margin-bottom: 30px;
       }
 
-      /* Blog Content */
+      .blog-cover:hover {
+        transform: scale(1.02);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      /* Enhanced Blog Content */
       .blog-content {
-        font-size: 18px;
-        line-height: 1.6;
-        color: #444;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.9);
         padding-top: 10px;
+        margin-bottom: 30px;
+        text-align: justify;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 25px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
-      /* Author Section */
+      .blog-content::first-letter {
+        font-size: 3.5rem;
+        font-weight: 700;
+        float: left;
+        margin: 0 8px 0 0;
+        line-height: 1;
+        background: var(--secondary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Enhanced Author Section */
       .author-box {
         display: flex;
         align-items: center;
         margin-top: 20px;
-        padding: 10px;
-        border-top: 1px solid #ddd;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .author-box:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-light);
+      }
+
+      .author-box::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--success-gradient);
+        border-radius: 2px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .author-box:hover::before {
+        opacity: 1;
       }
 
       .author-box img {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 15px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .author-box:hover img {
+        border-color: rgba(255, 255, 255, 0.6);
+        transform: scale(1.1);
       }
 
       .author-name {
-        font-size: 16px;
-        font-weight: bold;
-        color: #555;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
 
-      /* Comment Section */
+      /* Enhanced Comment Section */
       .comments-section {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 30px;
         margin-top: 30px;
-        padding-top: 20px;
-        border-top: 2px solid #eee;
+        box-shadow: var(--shadow-medium);
+        position: relative;
+        overflow: hidden;
       }
 
+      .comments-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      }
+
+      /* Enhanced Comment Box */
       .comment-box {
-        background: #fafafa;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 15px;
         display: flex;
         align-items: flex-start;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .comment-box:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+        box-shadow: var(--shadow-light);
+      }
+
+      .comment-box::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--accent-gradient);
+        border-radius: 2px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .comment-box:hover::before {
+        opacity: 1;
       }
 
       .comment-box img {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 15px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .comment-box:hover img {
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
       }
 
       .comment-text {
+        flex: 1;
         font-size: 16px;
-        color: #333;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
       }
 
+      .comment-text strong {
+        color: white;
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      /* Enhanced Comment Form */
       .comment-form {
-        margin-top: 15px;
+        margin-top: 20px;
+        margin-bottom: 25px;
       }
 
       .comment-form input {
         width: 100%;
-        padding: 10px;
+        padding: 15px 20px;
         font-size: 16px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-      }
-      .btn-submit {
-        background: #148d6bcc;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.1);
         color: white;
-        padding: 10px 20px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        outline: none;
+      }
+
+      .comment-form input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .comment-form input:focus {
+        border-color: rgba(102, 126, 234, 0.8);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .btn-submit {
+        background: var(--success-gradient);
+        color: white;
+        padding: 12px 30px;
         border: none;
-        border-radius: 5px;
+        border-radius: 12px;
         font-size: 16px;
+        font-weight: 600;
         cursor: pointer;
         margin-top: 10px;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-light);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .btn-submit:hover::before {
+        left: 100%;
       }
 
       .btn-submit:hover {
-        background: #013c1b;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+          margin: 15px;
+        }
+
+        .comments-section {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .blog-cover {
+          height: 300px;
+        }
+
+        .blog-content {
+          font-size: 1rem;
+          padding: 20px;
+        }
+
+        .comment-box {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .comment-box img {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+
+        .author-box img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+
+      /* Loading Animation */
+      .container, .comments-section {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease-in-out forwards;
+      }
+
+      .comments-section {
+        animation-delay: 0.2s;
+      }
+
+      @keyframes fadeInUp {
+        from { 
+          opacity: 0; 
+          transform: translateY(30px); 
+        }
+        to { 
+          opacity: 1; 
+          transform: translateY(0); 
+        }
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Enhanced focus styles for accessibility */
+      input:focus, button:focus {
+        outline: 2px solid rgba(102, 126, 234, 0.6);
+        outline-offset: 2px;
       }
     </style>
   </head>
@@ -128,16 +462,14 @@
 
     <div class="container mt-4">
       <h1><%= blog.title %></h1>
-      <img src="<%= blog.coverImageURL %>" class="blog-cover" />
+      <img src="<%= blog.coverImageURL %>" class="blog-cover" alt="<%= blog.title %>" />
 
       <p class="blog-content"><%= blog.body %></p>
 
       <div class="author-box">
         <% if (blog.createdBy) { %>
-        <img src="<%= blog.createdBy.profileImageURL %>" />
-        <span class="author-name"
-          ><%= blog.createdBy.fullName || 'Anonymous' %></span
-        >
+        <img src="<%= blog.createdBy.profileImageURL %>" alt="<%= blog.createdBy.fullName %>" />
+        <span class="author-name"><%= blog.createdBy.fullName || 'Anonymous' %></span>
         <% } else { %>
         <p>Author not found.</p>
         <% } %>
@@ -148,31 +480,23 @@
       <h2>Comments (<%= comments.length %>)</h2>
 
       <% if (locals.user) { %>
-      <form
-        action="/blog/comment/<%= blog._id %>"
-        method="post"
-        class="comment-form"
-      >
-        <input
-          type="text"
-          name="content"
-          placeholder="Write your comment..."
-          required
-        />
+      <form action="/blog/comment/<%= blog._id %>" method="post" class="comment-form">
+        <input type="text" name="content" placeholder="Write your comment..." required />
         <button class="btn-submit" type="submit">Add Comment</button>
       </form>
-      <% } %> <% comments.forEach(comment => { %>
+      <% } %>
+
+      <% comments.forEach(comment => { %>
       <div class="comment-box">
         <% if (comment.createdBy) { %>
-        <img src="<%= comment.createdBy.profileImageURL %>" />
+        <img src="<%= comment.createdBy.profileImageURL %>" alt="<%= comment.createdBy.fullName %>" />
         <div class="comment-text">
-          <strong><%= comment.createdBy.fullName %></strong><br />
+          <strong><%= comment.createdBy.fullName %></strong>
           <%= comment.content %>
         </div>
         <% } else { %>
         <p>Comment not found.</p>
         <% } %>
-       
       </div>
       <% }) %>
     </div>
