@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   makblogii:
-    build: .
+    image: prakashmakwana18/makblogii:latest
     container_name: makblogii_container
     ports:
       - "7777:8000"
