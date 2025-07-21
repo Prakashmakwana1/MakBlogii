@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   makblogii:
-    image: prakashmakwana18/makblogii:latest
+    build: .
     container_name: makblogii_container
     ports:
       - "7777:8000"
@@ -13,14 +11,20 @@ services:
       - mongo
     environment:
       - MONGO_URL=mongodb://mongo:27017/test
+      - NODE_ENV=development
+      - PORT=8000
+    restart: unless-stopped
 
   mongo:
-    image: mongo
+    image: mongo:latest
     container_name: mongo-db
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=test
+    restart: unless-stopped
 
 volumes:
   mongo-data:
